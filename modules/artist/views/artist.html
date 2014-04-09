@@ -1,0 +1,12 @@
+<b>This is the artist home page</b>
+
+
+<pre>
+{{ artist | json : object}}
+</pre>
+
+<ul>
+	<li ng-repeat="a in allArtists">
+		{{a.artist_name}}
+	</li>
+</ul>

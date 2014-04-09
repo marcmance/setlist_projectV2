@@ -1,0 +1,8 @@
+RewriteEngine On
+        RewriteBase /
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteCond $1 !^(index\.php|public|css|js|robots\.txt)
+        RewriteRule ^(.*)$ /api/v1/index.php?p=$1 [L]
+ErrorDocument 404 /index.php
+DirectoryIndex /api/v1/index.php

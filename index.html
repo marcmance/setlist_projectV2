@@ -1,0 +1,33 @@
+<html data-ng-app="mySetlist" id="mySetlist">
+	<head>
+		<title>Starting fresh</title>
+		<link rel="stylesheet/less" type="text/css" href="css/main.less" />
+		
+		<script src="core/angular.js"></script>
+		<script src="core/angular-resource.js"></script>
+		<script src="core/angular-route.js"></script>
+		<script src="core/angular-sanitize.js"></script>
+		<script src="core/less-1.3.3.min.js"></script>
+
+		<script src="modules/mySetlist.js"></script>
+		<script src="modules/artist/artistController.js"></script>
+		<script src="modules/artist/artistRoutes.js"></script>
+		<script src="modules/artist/artist.js"></script>
+		<script src="modules/user/user.js"></script>
+		<script src="modules/user/userRoutes.js"></script>
+		<script src="modules/user/userController.js"></script>
+
+		
+
+	</head>
+	<body>	
+		<div class="menu">
+			<div class="pull-left">Marc Mance</div>
+			<div class="pull-left">1</div>
+		</div>
+
+		<div id="main" class="main-container" ng-view="" style="">
+			
+		</div>
+	</body>
+</html>

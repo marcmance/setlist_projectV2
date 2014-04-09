@@ -1,0 +1,44 @@
+@import "reset.css";
+
+@backgroundColor: #F0F7FC;
+@containerBgColor: #E1E8ED;
+@border: #93999E;
+
+html {
+	font-family: Helvetica;
+}
+
+body {
+	background-color: @containerBgColor; 
+}
+
+.pull-left {
+	float: left;
+}
+
+.menu {
+	color: #FFF;
+	font-size: 1.5em;
+	background-color: @border; 
+	padding: .5em;
+	width: 100%;
+	position:fixed;
+	top:0px;
+
+	div {
+		padding: 0 .5em;
+	}
+}
+
+.main-container {
+	width:80%;
+	max-width: 980px;
+	margin: 3em auto;
+	padding: 1em;
+	background-color: @backgroundColor; 
+	border: 1px solid @border;
+	font-size: 1em;
+}
+
+
+
