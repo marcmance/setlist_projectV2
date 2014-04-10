@@ -30,17 +30,24 @@
 		 * @return query result
 		 */
 		public function find($id, $select_fields = null) {
-			$query = "SELECT " . $this->buildSelectFields($select_fields) . 
+			$new_join_array = $this->buildJoinStatment();
+
+			$query = "SELECT " . $this->buildSelectFields($select_fields, $new_join_array['select_fields']) . 
 					" FROM ". $this->table_name . 
+					" " . $new_join_array['join_statement'] . 
 					" WHERE " . $this->table_name . "_id = ? LIMIT 1";
-					
+
 			$params = array($id);
 			return $this->query($query, $params);
 		}
 
 		public function findAll($select_fields = null) {
-			$query = "SELECT " . $this->buildSelectFields($select_fields) . 
-					" FROM ". $this->table_name . " " . $this->order_statement;
+			$new_join_array = $this->buildJoinStatment();
+
+			$query = "SELECT " . $this->buildSelectFields($select_fields, $new_join_array['select_fields']) . 
+					" FROM ". $this->table_name . 
+					" " . $new_join_array['join_statement'] . 
+					" " . $this->order_statement;
 			$params = null;
 			return $this->query($query, $params);
 		}
@@ -163,11 +170,57 @@
 			return $results;
 		}
 
-		protected function buildSelectFields($fields) {
+
+		/************************
+		Query building functions
+		************************/
+
+
+		protected function buildJoinStatment() {
+			$new_join_array = array(
+					"select_fields" => "", //fields for select statement
+					"join_statement" => "" //join statement
+				);
+
+			if(!empty($this->join_array)) {
+				$c = 1;
+				foreach($this->join_array as $table => $select_fields) {
+					if(!empty($select_fields)) {
+						$new_join_array["select_fields"].= implode(",",$select_fields);
+
+						//add comma if not last table in loop
+						if($c != count($this->join_array)) {
+							$new_join_array["select_fields"].= ",";
+						}						
+					}
+					$new_join_array["join_statement"] .= "JOIN " . $table . " ON " . $table . "." . $table ."_id = " . $this->table_name . "." . $table . "_id ";
+					$c++;
+				}
+			}
+			$this->join_array = array(); //reset join
+			return $new_join_array;
+		}	
+
+		protected function buildSelectFields($fields, $join_select_fields = null) {
 			if($fields == null) {
 				$fields = $this->fields_array;
 			}
-			return implode(",",$fields);
+
+			if($join_select_fields != null) {
+				return implode(",",array_map(array($this, 'prependTableName'),$fields)) . "," . $join_select_fields;
+			}
+			else {
+				return implode(",",$fields);
+			}
+		}
+
+
+		/*********************
+		Helper Model functions
+		*********************/
+
+		protected function prependTableName($field) {
+			return $this->table_name . "." . $field;
 		}
 	}
 
