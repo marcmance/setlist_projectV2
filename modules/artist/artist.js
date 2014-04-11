@@ -1,11 +1,11 @@
-mySetlist.factory('artist', ['$resource',
+mySetlist.factory('artist', ['$resource', 'baseUrl',
 
-    function ($resource) {
+    function ($resource, baseUrl) {
 
         return {
 
             service: function (urlMod) {
-                return $resource('/api/v1/artist/' + urlMod,
+                return $resource(baseUrl + 'artist/' + urlMod,
                     {},
                     {
                         'get': {

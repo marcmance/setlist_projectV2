@@ -1,10 +1,12 @@
 var mySetlist = angular.module('mySetlist', ['ngResource', 'ngRoute', 'ngSanitize'])
 .run(['$rootScope',
 
-     function ($rootScope) {
+    function ($rootScope) {
      	
 	}
 ]);
+
+mySetlist.value('baseUrl', "/api/v1/");
 
 mySetlist.config(['$routeProvider', 
 

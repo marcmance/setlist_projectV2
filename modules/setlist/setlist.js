@@ -1,9 +1,9 @@
-mySetlist.factory('setlist', ['$resource',
+mySetlist.factory('setlist', ['$resource', 'baseUrl',
 
-    function ($resource) {
+    function ($resource, baseUrl) {
         return {
             service: function (urlMod) {
-                return $resource('/api/v1/setlist/' + urlMod,
+                return $resource(baseUrl + 'setlist/' + urlMod,
                     {},
                     {
                         'get': {

@@ -6,14 +6,11 @@
 		protected $table_name;
 		protected $fields_array;
 		
-		/*
-			Array of tables to be joined if $this->joined is called.
-		*/
-		protected $join_array; 
-
-		protected $privateFields;
-
+		protected $join_array;
+		protected $where_array;
 		protected $order_statement;
+		protected $privateFields;
+		
 
 		public function __construct() {
 			$this->mysqli = new mysqli(HOST_DB, USERNAME_DB, PASSWORD_DB, NAME_DB);
@@ -30,7 +27,7 @@
 		 * @return query result
 		 */
 		public function find($id, $select_fields = null) {
-			$new_join_array = $this->buildJoinStatment();
+			$new_join_array = $this->buildJoinStatement();
 
 			$query = "SELECT " . $this->buildSelectFields($select_fields, $new_join_array['select_fields']) . 
 					" FROM ". $this->table_name . 
@@ -42,13 +39,16 @@
 		}
 
 		public function findAll($select_fields = null) {
-			$new_join_array = $this->buildJoinStatment();
+			$new_join_array = $this->buildJoinStatement();
+			$new_where_array = $this->buildWhereStatement();
 
 			$query = "SELECT " . $this->buildSelectFields($select_fields, $new_join_array['select_fields']) . 
 					" FROM ". $this->table_name . 
 					" " . $new_join_array['join_statement'] . 
-					" " . $this->order_statement;
-			$params = null;
+					" " . $new_where_array['where_statement'] .
+ 					" " . $this->order_statement;
+ 			
+			$params = $new_where_array['bind_params'];
 			return $this->query($query, $params);
 		}
 
@@ -73,19 +73,18 @@
 		}
 
 
-		/******************
+		/******************************
 			mySQL operation functions
-		*******************/
+		******************************/
 
-		public function order($field, $order) {
+		public function where($field, $param, $operator = "=") {
 			if(in_array($field, $this->fields_array)) {
-				$this->order_statement = "ORDER BY " . $field;
-				if($order) {
-					$this->order_statement .= " ASC";
+				//error check operator
+				if($operator != "=" && $operator != "!=" && $operator != "<" && $operator != ">") {
+					$operator = "=";
 				}
-				else {
-					$this->order_statement .= " DESC";
-				}
+				$arr = array("param" => $param, "operator" => $operator);
+				$this->where_array[$field] = $arr;
 			}
 			return $this;
 		}
@@ -103,6 +102,19 @@
 				}
 			}
 			$this->join_array[$table] = $select_fields;
+			return $this;
+		}
+
+		public function order($field, $order) {
+			if(in_array($field, $this->fields_array)) {
+				$this->order_statement = "ORDER BY " . $field;
+				if($order) {
+					$this->order_statement .= " ASC";
+				}
+				else {
+					$this->order_statement .= " DESC";
+				}
+			}
 			return $this;
 		}
 
@@ -151,7 +163,6 @@
 			
 			if($stmt->num_rows == 1) {
 				$stmt->fetch();
-				$results['singleRecord'] = true;
 				foreach($fields_var as $k => $v) {
 					$results[$k] = $v;
 					$this->{$k} = $v;
@@ -176,7 +187,37 @@
 		************************/
 
 
-		protected function buildJoinStatment() {
+		protected function buildWhereStatement() {
+
+			$new_where_array = array(
+					"bind_params" => null,
+					"where_statement" => ""
+					);
+
+			if(!empty($this->where_array)) {
+
+				//initialize fields
+				$new_where_array['bind_params'] = array();
+				$new_where_array["where_statement"] = "WHERE ";
+
+				foreach($this->where_array as $field => $param_array) {
+					array_push($new_where_array["bind_params"], $param_array["param"]);
+
+					if($field != end(array_keys($this->where_array))) {
+						$new_where_array["where_statement"] .= $this->table_name . "." . $field ." ". $param_array["operator"] ."  ? AND ";
+					}
+					else {
+						$new_where_array["where_statement"] .= $this->table_name . "." . $field ." ". $param_array["operator"] ." ?";
+					}
+				}
+			}
+			$this->where_array = array(); //reset where
+			
+			return $new_where_array;
+		}
+
+
+		protected function buildJoinStatement() {
 			$new_join_array = array(
 					"select_fields" => "", //fields for select statement
 					"join_statement" => "" //join statement
