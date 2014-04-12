@@ -1,6 +1,17 @@
-<b>This is the setlist page</b>
+<div id="setlist">
+	<div class="header">
+		<h1>{{setlist.artist_name}}</h1>
+		<i>{{setlist.date}}</i></br>
+		<i>{{setlist.venue_name}}</i><br/>
+	</div>
 
-
+	<div class="songs">
+		<ul>
+			<li ng-repeat="s in setlist.songs">{{s.song_name}}</li>
+		</ul>
+	</div>
+</div>
+	<!--
 <pre>
 {{ setlist | json : object}}
-</pre>
+</pre>-->

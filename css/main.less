@@ -1,8 +1,10 @@
 @import "reset.css";
+@import "bootstrap.less";
 
+/*base colors*/
 @backgroundColor: #F0F7FC;
 @containerBgColor: #E1E8ED;
-@border: #93999E;
+@borderColor: #93999E;
 
 html {
 	font-family: Helvetica;
@@ -19,7 +21,7 @@ body {
 .menu {
 	color: #FFF;
 	font-size: 1.5em;
-	background-color: @border; 
+	background-color: @borderColor; 
 	padding: .5em;
 	width: 100%;
 	position:fixed;
@@ -36,7 +38,7 @@ body {
 	margin: 3em auto;
 	padding: 1em;
 	background-color: @backgroundColor; 
-	border: 1px solid @border;
+	border: 1px solid @borderColor;
 	font-size: 1em;
 }
 
