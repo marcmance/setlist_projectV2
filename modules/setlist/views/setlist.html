@@ -1,13 +1,19 @@
 <div id="setlist">
 	<div class="header">
 		<h1>{{setlist.artist_name}}</h1>
-		<i>{{setlist.date}}</i></br>
-		<i>{{setlist.venue_name}}</i><br/>
+		<i>{{setlist.date | date:'fullDate'}}</i></br>
+		<i>{{setlist.venue_name}}, {{setlist.state}}</i><br/>
 	</div>
-
+	<!--<input type="search" ng-model="q.encore" placeholder="filter friends..." />-->
 	<div class="songs">
 		<ul>
-			<li ng-repeat="s in setlist.songs">{{s.song_name}}</li>
+			<li ng-repeat="s in setlist.songs | filter:filters" ng-class="{encore: s.encore}">{{s.song_name}}</li>
+		</ul>
+	</div>
+
+	<div class="albums">
+		<ul>
+			<li ng-repeat="a in setlist.album_count"><a ng-click="albumFilter(a.name)">{{a.name}}</a> | {{a.count}}</li>
 		</ul>
 	</div>
 </div>
