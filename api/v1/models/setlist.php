@@ -20,11 +20,11 @@
 
 		//gets all setlist song for this setlist
 		//TODO save record into model 
-		public function getSetlistSongs($id) {
+		public function getSetlistSongs() {
 			$ss = new Setlist_Song();
 			$this->setlist_songs = $ss->join("song", array("song_id","song_name"))
 				->join("album",array("album_id","album_name","cover_art_url"))
-				->where("setlist_id",$id)
+				->where("setlist_id",$this->setlist_id)
 				->order("setlist_order", true)
 				->findAll();
 			return $this->setlist_songs;
@@ -46,6 +46,41 @@
 
 
 			return $this->query($query, null);
+		}
+
+		public function getFirstTimeSetlistSongs() {
+			
+			if(!empty($this->setlist_songs)) {
+
+				//get all the song ids for this setlist, put them into an array
+				$song_ids = array();
+				foreach($this->setlist_songs as $ss) {
+					$song_ids[] = $ss['song_id'];
+				}
+
+				$song_id_comma = implode(",", $song_ids);
+
+				$query = "SELECT DISTINCT(setlist_song.song_id)
+						FROM setlist_song
+						JOIN setlist
+						ON setlist.setlist_id = setlist_song.setlist_id
+						JOIN song
+						ON song.song_id = setlist_song.song_id
+						WHERE setlist.setlist_id != ? AND setlist.date < ? AND song.song_id in (".$song_id_comma.")";
+
+				$params = array($this->setlist_id, $this->date);
+				$result = $this->query($query, $params);
+
+				//extract ID's from query results
+				$result_song_ids = array();
+				foreach($result as $r) {
+					$result_song_ids[] = $r['song_id'];
+				}
+
+				//get differences 
+				$song_id_diff = array_diff($song_ids, $result_song_ids);
+				return $song_id_diff;
+			}
 		}
 
 		//Takes setlist and counts the number of songs per album

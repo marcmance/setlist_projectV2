@@ -15,8 +15,9 @@
 			
 			if(!empty($results)) {
 				//query all songs for Setlist
-				$results['songs'] =  $this->model->getSetlistSongs($id);
+				$results['songs'] =  $this->model->getSetlistSongs();
 				$results['album_count'] = $this->model->getSongsOnAlbumCount();
+				$results['new_songs'] = $this->model->getFirstTimeSetlistSongs();
 			}
 
 			//printArray($results);

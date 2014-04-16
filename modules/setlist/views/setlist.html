@@ -13,11 +13,9 @@
 
 	<div class="albums">
 		<ul>
-			<li ng-repeat="a in setlist.album_count"><a ng-click="albumFilter(a.name)">{{a.name}}</a> | {{a.count}}</li>
+			<li ng-repeat="a in setlist.album_count"><a ng-click="albumFilter(a.name);">{{a.name}}</a> | {{a.count}}</li>
 		</ul>
 	</div>
+
+	<a ng-click="clearFilter();">Clear flilter</a>
 </div>
-	<!--
-<pre>
-{{ setlist | json : object}}
-</pre>-->
