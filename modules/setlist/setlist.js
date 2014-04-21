@@ -30,6 +30,17 @@ mySetlist.factory('setlist', ['$resource', 'baseUrl',
                     }
                 );
             },
+            getAll : function (userId) {
+                var urlMod = userId;
+                return this.service(urlMod).get({},
+                    function (response) {
+                        return response;
+                    },
+                    function (failed) {
+                        return failed;
+                    }
+                );
+            },
             post : function () {
                 return this.service().post({},
                     function (response) {

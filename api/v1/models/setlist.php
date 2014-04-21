@@ -19,7 +19,6 @@
 		}
 
 		//gets all setlist song for this setlist
-		//TODO save record into model 
 		public function getSetlistSongs() {
 			$ss = new Setlist_Song();
 			$this->setlist_songs = $ss->join("song", array("song_id","song_name"))
@@ -30,6 +29,7 @@
 			return $this->setlist_songs;
 		}
 
+		//gets all setlist artists for a user
 		public function getAllSetlistArtists($user_id, $name = false) {
 			$user_id = intval($user_id);
 			$orderBy = "artist_count DESC";
@@ -48,6 +48,7 @@
 			return $this->query($query, null);
 		}
 
+		//gets all first time setlist songs
 		public function getFirstTimeSetlistSongs() {
 			
 			if(!empty($this->setlist_songs)) {

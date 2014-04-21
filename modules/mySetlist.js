@@ -23,7 +23,8 @@ mySetlist.config(['$routeProvider',
                 templateUrl: '/modules/home.html',
                 controller: 'TestController2'
             }
-        );
+        )
+        .otherwise({ redirectTo: '/' });
     }
 ]);
 

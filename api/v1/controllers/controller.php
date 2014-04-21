@@ -17,7 +17,7 @@
 
 		//Ex. /user/
 		public function index() {
-			return json_encode($this->model->order("artist_name",true)->findAll());
+			return json_encode($this->model->findAll());
 		}
 
 		public function post() {
