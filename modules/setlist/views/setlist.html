@@ -4,16 +4,24 @@
 		<i>{{setlist.date | date:'fullDate'}}</i></br>
 		<i>{{setlist.venue_name}}, {{setlist.city}}, {{setlist.state}}</i><br/>
 	</div>
+
+	<div class="stats">
+		
+			<div class="pull-left stats-container" ng-repeat="a in setlist.album_count">
+				<div ng-click="albumFilter(a.name);" class="stats-art" style="background-image: url('/imgs/{{a.url}}'); background-size:90px 90px">
+					
+				</div>
+				<div class="count">{{a.count}}</div>
+			</div>
+			
+			<div class="clear"/>
+		
+	</div>
+
 	<!--<input type="search" ng-model="q.encore" placeholder="filter friends..." />-->
 	<div class="songs">
 		<ul>
 			<li ng-repeat="s in setlist.songs | filter:filters" ng-class="{encore: s.encore}">{{s.song_name}}</li>
-		</ul>
-	</div>
-
-	<div class="albums">
-		<ul>
-			<li ng-repeat="a in setlist.album_count"><a ng-click="albumFilter(a.name);">{{a.name}}</a> | {{a.count}}</li>
 		</ul>
 	</div>
 
