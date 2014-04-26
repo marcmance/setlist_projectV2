@@ -19,8 +19,8 @@ mySetlist.factory('setlist', ['$resource', 'baseUrl',
                     }
                 );
             },
-            get : function (userId) {
-                var urlMod = userId;
+            get : function (setlistId) {
+                var urlMod = setlistId;
                 return this.service(urlMod).get({},
                     function (response) {
                         return response;
