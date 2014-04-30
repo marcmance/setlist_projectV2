@@ -26,6 +26,8 @@
 				->where("setlist_id",$this->setlist_id)
 				->order("setlist_order", true)
 				->findAll();
+
+			$this->getFirstTimeSetlistSongs();
 			return $this->setlist_songs;
 		}
 
@@ -56,7 +58,7 @@
 				//get all the song ids for this setlist, put them into an array
 				$song_ids = array();
 				foreach($this->setlist_songs as $ss) {
-					$song_ids[] = $ss['song_id'];
+					$song_ids[$ss['song_id']] = $ss['song_id'];
 				}
 
 				$song_id_comma = implode(",", $song_ids);
@@ -80,6 +82,14 @@
 
 				//get differences 
 				$song_id_diff = array_diff($song_ids, $result_song_ids);
+
+				//add boolean to songs array if new song
+				foreach ($this->setlist_songs as &$v) {
+					if(array_key_exists($v['song_id'], $song_id_diff)) {
+						$v['new_song'] = true;
+					}
+				}
+
 				return $song_id_diff;
 			}
 		}

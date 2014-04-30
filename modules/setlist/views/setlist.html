@@ -21,8 +21,8 @@
 	<!--<input type="search" ng-model="q.encore" placeholder="filter friends..." />-->
 	<div class="songs">
 		<ul>
-			<li ng-repeat="s in setlist.songs | filter:filters" ng-class="{encore: s.encore}">{{s.song_name}}</li>
-		</ul>
+			<li ng-repeat="s in setlist.songs | filter:filters" ng-class="{encore: s.encore, newsong: s.new_song}">{{s.song_name}}</li>
+		</ul> 
 	</div>
 
 	<a ng-click="clearFilter();">Clear flilter</a>
