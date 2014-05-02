@@ -7,6 +7,15 @@
 		margin: 1em 0;
 		padding: 1em 0;
 		border-top: 1px solid @borderColor;
+
+		li {
+			padding: .5em 0;
+			line-height: .5em;
+		}
+
+		.notes {
+			font-size: .8em;
+		}
 	}
 
 	.stats {
@@ -31,9 +40,16 @@
 			height:90px;
 		}
 	}
-
-	.encore {
-		color: red;
+	
+	/* Apply to all */
+	ul > .encore {
+		color: #FF8766;
+		border-top: 1px solid @borderColor;
+		width: 50%;
+	}
+	/* Negate all expect first. Hacky as fuck solution */
+	ul > .encore ~ .encore {
+	    border-top: none;
 	}
 
 	.newsong {

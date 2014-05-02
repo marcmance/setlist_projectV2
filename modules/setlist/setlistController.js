@@ -10,7 +10,13 @@ mySetlist.controller('SetlistController', ['$scope', '$route', 'setlist',
 	    $scope.filters = { };
 
 	    $scope.albumFilter = function(name) {
-	    	$scope.filters.album_name = name;
+	    	if(name === $scope.filters.album_name ) {
+	    		$scope.clearFilter();
+	    	}
+	    	else {
+	    		$scope.filters.album_name = name;
+	    	}
+	    	
 	    };
 
 	    $scope.clearFilter = function() {
