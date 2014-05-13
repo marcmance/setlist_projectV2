@@ -105,7 +105,7 @@
 			return $this;
 		}
 
-		public function order($field, $order) {
+		public function order($field, $order = false) {
 			if(in_array($field, $this->fields_array)) {
 				$this->order_statement = "ORDER BY " . $field;
 				if($order) {

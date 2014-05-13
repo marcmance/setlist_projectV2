@@ -13,6 +13,14 @@ mySetlist.factory('setlist', ['$resource', 'baseUrl',
                                 'X-CSRF-Token': sessionStorage.get('csrf')
                             }*/
                         },
+                        'getAll': {
+                            method: 'GET',
+                            isArray: true
+                            /*
+                            headers: {
+                                'X-CSRF-Token': sessionStorage.get('csrf')
+                            }*/
+                        },
                         'post': {
                             method: 'POST'
                         }
@@ -31,8 +39,7 @@ mySetlist.factory('setlist', ['$resource', 'baseUrl',
                 );
             },
             getAll : function (userId) {
-                var urlMod = userId;
-                return this.service(urlMod).get({},
+                return this.service('').getAll({},
                     function (response) {
                         return response;
                     },

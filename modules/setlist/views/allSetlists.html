@@ -1,0 +1,11 @@
+<div id="all-setlists">
+	<div class="header">
+		All setlists
+	</div>
+
+	<ul>
+		<li ng-repeat="s in setlists">
+			{{s.date}} | <a href="/#/setlist/{{s.setlist_id}}">{{s.artist_name}} @ {{s.venue_name}}</a>
+		</li>
+	</ul>
+</div>

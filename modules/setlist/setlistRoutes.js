@@ -6,5 +6,11 @@ mySetlist.config(['$routeProvider',
                 controller: 'SetlistController'
             }
         )
+        .when('/setlists/', 
+            {
+                templateUrl: '/modules/setlist/views/allSetlists.html',
+                controller: 'AllSetlistsController'
+            }
+        )
     }
 ]);

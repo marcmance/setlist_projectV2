@@ -23,5 +23,13 @@
 			//printArray($results);
 			return json_encode($results);
 		}
+
+		public function index() {
+			$results = $this->model->join("venue", array("venue_name", "city", "state"))
+				->join("artist", array("artist_name"))
+				->order("date")
+				->findAll();
+			return json_encode($results);	
+		}
 	}
 ?>
