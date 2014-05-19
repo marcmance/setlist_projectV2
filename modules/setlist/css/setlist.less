@@ -56,3 +56,31 @@
 		font-weight: bold;
 	}
 }
+
+#all-setlists {
+	.setlist {
+		padding: .5em;
+		border: 1px solid @borderColor;
+		margin: .5em;
+		background-color: @containerBgColor;
+
+		.setlist-date {
+			float: left;
+			width: 30%;
+		}
+		.setlist-info {
+			float: left;
+			width: 70%;
+		}
+
+		a {
+			font-weight: bold;
+		}
+
+	}
+	.setlist:after {
+		 content: "";
+		 display: table;
+		 clear: both;
+	}
+}

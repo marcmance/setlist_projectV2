@@ -3,9 +3,14 @@
 		All setlists
 	</div>
 
-	<ul>
-		<li ng-repeat="s in setlists">
-			{{s.date}} | <a href="/#/setlist/{{s.setlist_id}}">{{s.artist_name}} @ {{s.venue_name}}</a>
-		</li>
-	</ul>
+
+	<div class="setlist" ng-repeat="s in setlists">
+		<div class="setlist-date"> 
+			<b>{{s.date | date:'longDate'}}</b> 
+		</div>
+		<div class="setlist-info">
+			<a href="/#/setlist/{{s.setlist_id}}">{{s.artist_name}} @ {{s.venue_name}}</a>
+		</div>
+	<div>
+
 </div>
