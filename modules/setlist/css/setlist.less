@@ -58,15 +58,22 @@
 }
 
 #all-setlists {
+
+	.header {
+		font-size: 1.5em;
+	}
 	.setlist {
 		padding: .5em;
-		border: 1px solid @borderColor;
+		_border: 1px solid @borderColor;
 		margin: .5em;
-		background-color: @containerBgColor;
+		_background-color: @containerBgColor;
 
 		.setlist-date {
 			float: left;
 			width: 30%;
+			font-size: 1.2em;
+			border-bottom: 1px solid black;
+			
 		}
 		.setlist-info {
 			float: left;
@@ -75,6 +82,7 @@
 
 		a {
 			font-weight: bold;
+			font-size: 1.2em;
 		}
 
 	}
