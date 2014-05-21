@@ -5,8 +5,10 @@
 
 
 	<div class="setlist" ng-repeat="s in setlists">
-		<div class="setlist-date"> 
-			<b>{{s.date | date:'longDate'}}</b> 
+		<div class="setlist-date-container"> 
+			<div class="setlist-date">
+				<b>{{s.date | date:'longDate'}}</b> 
+			</div>
 		</div>
 		<div class="setlist-info">
 			<a href="/#/setlist/{{s.setlist_id}}">{{s.artist_name}}</a><br/>

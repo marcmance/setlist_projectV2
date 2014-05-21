@@ -48,6 +48,16 @@ mySetlist.factory('setlist', ['$resource', 'baseUrl',
                     }
                 );
             },
+             setlistArtists : function (userId) {
+                return this.service('artists').getAll({},
+                    function (response) {
+                        return response;
+                    },
+                    function (failed) {
+                        return failed;
+                    }
+                );
+            },
             post : function () {
                 return this.service().post({},
                     function (response) {

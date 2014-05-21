@@ -33,7 +33,7 @@
 
 		//gets all setlist artists for a user
 		public function getAllSetlistArtists($user_id, $name = false) {
-			$user_id = intval($user_id);
+			//$user_id = intval($user_id);
 			$orderBy = "artist_count DESC";
 			if($name) {
 				$orderBy = "artist.artist_name";

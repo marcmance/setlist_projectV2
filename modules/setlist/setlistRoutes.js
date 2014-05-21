@@ -1,6 +1,12 @@
 mySetlist.config(['$routeProvider', 
     function ($routeProvider) {
-    	$routeProvider.when('/setlist/:id', 
+    	$routeProvider.when('/setlist/artists', 
+            {
+                templateUrl: '/modules/setlist/views/setlistArtists.html',
+                controller: 'SetlistArtistsController'
+            }
+        )
+        .when('/setlist/:id', 
             {
                 templateUrl: '/modules/setlist/views/setlist.html',
                 controller: 'SetlistController'

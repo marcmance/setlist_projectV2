@@ -13,7 +13,15 @@
 		echo $con->index();
 	}
 	else if($method == 'GET' && $route_array[1] != null) {
-		echo $con->get($route_array[1]);
+		if($route_array[1] == 'artists') {
+			//make this dynamic at some point
+			echo call_user_func(array($con,'artists'));
+		}
+		else {
+			echo $con->get($route_array[1]);
+		}
+		
+		
 	}
 
 	function __autoload($className) {

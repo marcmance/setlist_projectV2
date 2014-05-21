@@ -31,5 +31,10 @@
 				->findAll();
 			return json_encode($results);	
 		}
+
+		public function artists() {
+			$results = $this->model->getAllSetlistArtists(null, true);
+			return json_encode($results);	
+		}
 	}
 ?>
