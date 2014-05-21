@@ -5,7 +5,7 @@
 	<div>
 		<ul>
 			<li ng-repeat="a in artists">
-				{{a.artist_name}}
+				<b>{{a.artist_count}}</b> | <a href="#/artist/{{a.artist_id}}">{{a.artist_name}}</a>
 			</li>
 		</ul>
 	</div>
