@@ -8,10 +8,10 @@ mySetlist.controller('ArtistController', ['$scope', '$route', 'artist',  functio
         $scope.artist = result;
     });
 
-    artist.getAll().$promise.then(function(result){
+/*    artist.getAll().$promise.then(function(result){
         console.log(result);
         $scope.allArtists = result;
-    });
+    });*/
 
 
 }]);
