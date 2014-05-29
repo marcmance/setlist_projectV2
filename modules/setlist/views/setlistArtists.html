@@ -2,8 +2,15 @@
 	<div class="header">
 		Setlist artists
 	</div>
-	<div ng-repeat="a in artists">
-		<img ng-src="imgs/artists/{{a.artist_name | toFileName:'jpg'}}"/>
-		<b>{{a.artist_count}}</b> | <a href="#/artist/{{a.artist_id}}">{{a.artist_name}}</a> 
+	<div class="artist-container">
+		<div ng-repeat="a in artists" class="artist">
+			<div class="artist-img">
+				<img ng-src="imgs/artists/{{a.artist_name | toFileName:'jpg'}}"/>
+			</div>
+			<div class="info">
+				<span><a href="#/artist/{{a.artist_id}}" class="artist-header-link">{{a.artist_name}}</a></span> <br/>
+				<b>{{a.artist_count}}</b> setlists
+			</div>
+		</div>
 	</div>
 </div>

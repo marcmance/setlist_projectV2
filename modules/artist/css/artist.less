@@ -1,6 +1,51 @@
 #setlist-artists {
-	img {
-		width: 100px;
-		height: 100px;
+
+	.artist-container:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+
+	.artist {
+		border: 1px solid @borderColor;
+		background-color: @backgroundColor;
+		width: 40%;
+		margin: 1em;
+		float: left;
+		padding: 1em;
+	}
+
+	.artist:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+
+	.artist-img {
+		float: left;
+		width: 30%;
+		img {
+			width: 100px;
+			height: 100px;
+			border: 1px solid @borderColor;
+		}
+	}
+
+	.info {
+		margin: 1em 0 1em 1em;
+		padding: auto 0;
+		float:left;
+		width: 60%;
+		vertical-align: middle;
+
+		span {
+			margin-bottom: 1em;
+		}
+	}
+
+	@media screen and (max-width: 850px) {
+		.artist {
+			width: 85%;
+		}
 	}
 }

@@ -2,8 +2,8 @@
 @import "bootstrap.less";
 
 /*base colors*/
-@backgroundColor: #F0F7FC;
-@containerBgColor: #E1E8ED;
+@containerBgColor: #F0F7FC;
+@backgroundColor: #E1E8ED;
 @borderColor: #93999E;
 @linkColor: #7694AD;
 
@@ -12,7 +12,7 @@ html {
 }
 
 body {
-	background-color: @containerBgColor; 
+	background-color: @backgroundColor; 
 }
 
 i {
@@ -34,6 +34,11 @@ b {
 
 .clear {
 	clear:both;
+}
+
+.artist-header-link {
+	font-weight: bold;
+	font-size: 1.2em;
 }
 
 .menu {
@@ -59,7 +64,7 @@ b {
 	max-width: 980px;
 	margin: 3em auto;
 	padding: 1em;
-	background-color: @backgroundColor; 
+	background-color: @containerBgColor; 
 	border: 1px solid @borderColor;
 	font-size: 1em;
 }
