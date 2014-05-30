@@ -12,7 +12,8 @@
 				"venue_id",
 				"created_date",
 				"updated_date",
-				"user_id");
+				"user_id"
+			);
 
 			$setlist_songs = array();
 			parent::__construct();	

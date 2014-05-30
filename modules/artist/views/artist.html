@@ -1,12 +1,24 @@
 <b>{{artist.artist_name}}</b>
 
 
-<pre>
+<!-- <pre>
 {{ artist | json : object}}
 </pre>
 
 <ul>
 	<li ng-repeat="a in allArtists">
 		{{a.artist_name}}
+	</li>
+</ul> -->
+
+<ul>
+	<li ng-repeat="s in artist.songs">
+		<b>{{s.song_count}}</b> | {{s.song_name}}
+	</li>
+</ul>
+
+<ul>
+	<li ng-repeat="s in artist.setlists">
+		<b>{{s.date}}</b> | {{s.venue_name}}
 	</li>
 </ul>
