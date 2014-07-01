@@ -51,9 +51,11 @@ mySetlist.factory('artist', ['$resource', 'baseUrl',
                     }
                 );
             },
-            post : function () {
-                return this.service().post({},
+            post : function (postData) {
+                console.log("json", postData);
+                return this.service('').post(postData,
                     function (response) {
+                        console.log("what the response?", response);
                         return response;
                     },
                     function (failed) {

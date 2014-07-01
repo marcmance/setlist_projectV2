@@ -54,6 +54,7 @@
 			$params = null;
 			if($this->method === "GET" && isset($this->requested_route[1])) {
 				
+				//check if second param is an ID or controller action
 				if(in_array($this->requested_route[1], get_class_methods($this->con))) {
 					$this->action = $this->requested_route[1];
 				}

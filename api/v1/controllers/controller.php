@@ -21,13 +21,14 @@
 		}
 
 		public function post() {
+
+			//return json_encode($_POST);
+			$json = json_decode(file_get_contents('php://input'));
 			
-			/*
-			$object = new stdClass();
-			$object->property = 'Here we go, from controllers now';
-			$object->name = 'Marc';
-			$object->method = "Posting and toasting";*/
-			//echo json_encode($object);
+			
+			$this->model = new $this->model_name();
+			$this->model->setModelFields($json);
+			printArray($this->model);
 		}
 
 		public function put() {

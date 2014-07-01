@@ -263,6 +263,22 @@
 		protected function prependTableName($field) {
 			return $this->table_name . "." . $field;
 		}
+
+		/*******
+		Get/Setters (Make magic functions at some point)
+		*******/
+
+		public function getFieldsArray() {
+			return $this->fields_array;
+		}
+
+		public function setModelFields($fields) {
+			foreach ($fields as $k => $v) {
+				if(in_array($k, $this->fields_array)) {
+					$this->{$k} = $v;
+				}
+			}
+		}
 	}
 
 ?>
