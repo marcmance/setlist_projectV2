@@ -5,6 +5,7 @@
 		protected $mysqli;
 		protected $table_name;
 		protected $fields_array;
+		protected $fields_array_settings;
 		
 		protected $join_array;
 		protected $where_array;
@@ -16,6 +17,7 @@
 			$this->mysqli = new mysqli(HOST_DB, USERNAME_DB, PASSWORD_DB, NAME_DB);
 			$this->table_name = strtolower(get_class($this));
 			$this->join_array = array();
+			$this->fields_array = array_keys($this->fields_array_settings);
 		}
 
 
@@ -50,6 +52,16 @@
  			
 			$params = $new_where_array['bind_params'];
 			return $this->query($query, $params);
+		}
+
+		//for INSERTing to the DB
+		public function insert() {
+			
+			$insert_array = $this->buildInsertFields();
+			$query = "INSERT INTO " . $this->table_name . " (" . $insert_array['insert_statement'] . ") VALUES (" . 
+									$insert_array['values_statement'] . ")";
+			return $this->query($query, $insert_array['bind_params']);
+
 		}
 
 		public function query($query, $params = null) {	
@@ -153,32 +165,40 @@
 			$results = null;
 			
 			$meta = $stmt->result_metadata();
-			while ($field = $meta->fetch_field()) {
-				$field_name = $field->name;
-				$$field_name = null;
-				$fields_var[$field_name] = &$$field_name;
-			}
-			call_user_func_array(array($stmt,'bind_result'),$fields_var);
-			$results = array();
-			
-			if($stmt->num_rows == 1) {
-				$stmt->fetch();
-				foreach($fields_var as $k => $v) {
-					$results[$k] = $v;
-					$this->{$k} = $v;
+
+			//check if it's INSERT, if so return ID;
+			if($meta) {
+				while ($field = $meta->fetch_field()) {
+					$field_name = $field->name;
+					$$field_name = null;
+					$fields_var[$field_name] = &$$field_name;
 				}
-			}
-			else if($stmt->num_rows > 1) {
-				$i = 0;
-				while($stmt->fetch()) {
-					$results[$i] = array();
+				call_user_func_array(array($stmt,'bind_result'),$fields_var);
+				$results = array();
+				
+				if($stmt->num_rows == 1) {
+					$stmt->fetch();
 					foreach($fields_var as $k => $v) {
-						$results[$i][$k] = $v;
+						$results[$k] = $v;
+						$this->{$k} = $v;
 					}
-					$i++;
 				}
+				else if($stmt->num_rows > 1) {
+					$i = 0;
+					while($stmt->fetch()) {
+						$results[$i] = array();
+						foreach($fields_var as $k => $v) {
+							$results[$i][$k] = $v;
+						}
+						$i++;
+					}
+				}
+				return $results;
 			}
-			return $results;
+			else {
+				return $stmt->insert_id;
+			}
+
 		}
 
 
@@ -192,7 +212,7 @@
 			$new_where_array = array(
 					"bind_params" => null,
 					"where_statement" => ""
-					);
+				);
 
 			if(!empty($this->where_array)) {
 
@@ -255,6 +275,31 @@
 			}
 		}
 
+		protected function buildInsertFields() {
+
+			$arr = array(
+				"bind_params" => array(),
+				"insert_statement" => "",
+				"values_statement" => ""
+			);
+
+			$fields_to_impode = array();
+			$fields_to_impode2 = array();
+
+			foreach ($this->fields_array as $f) {
+				if($this->fields_array_settings[$f] !== 'private') {
+					array_push($arr['bind_params'], $this->{$f});
+					array_push($fields_to_impode, $f);
+					array_push($fields_to_impode2, "?");
+				}
+			}
+
+			$arr['insert_statement'] = implode(",",$fields_to_impode);
+			$arr['values_statement'] = implode(",",$fields_to_impode2);
+
+			return $arr;
+		}
+
 
 		/*********************
 		Helper Model functions
@@ -273,9 +318,11 @@
 		}
 
 		public function setModelFields($fields) {
-			foreach ($fields as $k => $v) {
-				if(in_array($k, $this->fields_array)) {
-					$this->{$k} = $v;
+			if(gettype($fields) === "object") {
+				foreach ($fields as $k => $v) {
+					if(in_array($k, $this->fields_array)) {
+						$this->{$k} = $v;
+					}
 				}
 			}
 		}

@@ -2,7 +2,7 @@
 	class User extends Model {
 	
 		public function __construct() {
-			$this->fields_array = array(
+			$this->fields_array_settings = array(
 				"user_id",
 				"user_first_name",
 				"user_last_name",

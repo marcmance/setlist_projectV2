@@ -22,13 +22,13 @@
 
 		public function post() {
 
-			//return json_encode($_POST);
 			$json = json_decode(file_get_contents('php://input'));
-			
 			
 			$this->model = new $this->model_name();
 			$this->model->setModelFields($json);
-			printArray($this->model);
+
+			$results['id'] = $this->model->insert();
+			echo json_encode($results);
 		}
 
 		public function put() {

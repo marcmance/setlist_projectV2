@@ -14,11 +14,11 @@ mySetlist.controller('ArtistController', ['$scope', '$route', 'artist',  functio
     });*/
 
     var testJSON = {
-        artist_name: "Fall Out Boy",
+        artist_name: "Fall Out Booii",
         artist_id: 2
     };
 
-    artist.post(testJSON);
+    //artist.post(testJSON);
 
 
 }]);

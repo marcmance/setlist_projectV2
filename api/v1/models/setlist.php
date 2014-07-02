@@ -4,15 +4,15 @@
 		public $setlist_songs;
 	
 		public function __construct() {
-			$this->fields_array = array(
-				"artist_id", 
-				"date",
-				"headline",
-				"setlist_id",
-				"venue_id",
-				"created_date",
-				"updated_date",
-				"user_id"
+			$this->fields_array_settings = array(
+				"artist_id" => "foreign_key",
+				"date" => "public",
+				"headline" => "public",
+				"setlist_id" => "public",
+				"venue_id" => "public",
+				"created_date" => "public",
+				"updated_date" => "public",
+				"user_id" => "public"
 			);
 
 			$setlist_songs = array();

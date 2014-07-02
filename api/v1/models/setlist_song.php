@@ -2,18 +2,18 @@
 	class Setlist_Song extends Model {
 		public function __construct() {
 			
-			$this->fields_array = array(
-				"setlist_song_id", 
-				"song_id",
-				"album_id",
-				"closer",
-				"opener",
-				"encore",
-				"notes",
-				"setlist_id",
-				"setlist_order",
-				"created_date",
-				"updated_date"
+			$this->fields_array_settings = array(
+				"setlist_song_id" => "private",
+				"song_id" => "public",
+				"album_id" => "public",
+				"closer" => "public",
+				"opener" => "public",
+				"encore" => "public",
+				"notes" => "public",
+				"setlist_id" => "public",
+				"setlist_order" => "public",
+				"created_date" => "public",
+				"updated_date" => "public"
 			);
 
 			parent::__construct();							
