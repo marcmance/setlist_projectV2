@@ -323,8 +323,13 @@
 					if(in_array($k, $this->fields_array)) {
 						$this->{$k} = $v;
 					}
+					else {
+						return false;
+					}
 				}
+				return true;
 			}
+			return false;
 		}
 	}
 

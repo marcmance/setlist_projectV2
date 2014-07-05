@@ -25,9 +25,15 @@
 			$json = json_decode(file_get_contents('php://input'));
 			
 			$this->model = new $this->model_name();
-			$this->model->setModelFields($json);
+			$sucesss = $this->model->setModelFields($json);
 
-			$results['id'] = $this->model->insert();
+			if($sucesss) {
+				$results['id'] = $this->model->insert();
+			}
+			else {
+				$results['error'] = "Wrong fields";
+			}
+			
 			echo json_encode($results);
 		}
 
