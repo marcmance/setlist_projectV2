@@ -1,7 +1,7 @@
 mySetlist.controller('NewArtistController', ['$scope', '$route', 'artist',  function ($scope, $route, artist) {
     
     $scope.artist = {
-        artist_name: '',
+        artist_name: ''
     };
 
     $scope.showMsg = false;
