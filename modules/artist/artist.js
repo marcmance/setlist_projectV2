@@ -25,7 +25,14 @@ mySetlist.factory('artist', ['$resource', 'baseUrl',
                         },
                         'post': {
                             method: 'POST'
-                        }
+                        },
+                        'getSetlists': {
+                            method: 'GET'
+                            /*
+                            headers: {
+                                'X-CSRF-Token': sessionStorage.get('csrf')
+                            }*/
+                        },
                     }
                 );
             },
@@ -62,7 +69,19 @@ mySetlist.factory('artist', ['$resource', 'baseUrl',
                         return failed;
                     }
                 );
-            }
+            },
+            getSetlists : function (artistId) {
+                var urlMod = 'setlists/' + artistId;
+                return this.service(urlMod).getSetlists({},
+                    function (response) {
+                        console.log("?", response);
+                        return response;
+                    },
+                    function (failed) {
+                        return failed;
+                    }
+                );
+            },
         };
     }
 ]);
