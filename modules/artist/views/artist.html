@@ -1,0 +1,8 @@
+<b>{{artist.artist_name}}</b>
+
+<ul>
+	<li ng-repeat="a in artist.albums">
+		<img ng-src="/imgs/{{a.cover_art_url}}" width="200" height="200"/> 
+		{{a.album_name}} ({{a.year}})
+	</li>
+</ul>
