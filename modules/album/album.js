@@ -1,11 +1,11 @@
-mySetlist.factory('artist', ['$resource', 'baseUrl',
+mySetlist.factory('album', ['$resource', 'baseUrl',
 
     function ($resource, baseUrl) {
 
         return {
 
             service: function (urlMod) {
-                return $resource(baseUrl + 'artist/' + urlMod,
+                return $resource(baseUrl + 'album/' + urlMod,
                     {},
                     {
                         'get': {
@@ -25,19 +25,12 @@ mySetlist.factory('artist', ['$resource', 'baseUrl',
                         },
                         'post': {
                             method: 'POST'
-                        },
-                        'getSetlists': {
-                            method: 'GET'
-                            /*
-                            headers: {
-                                'X-CSRF-Token': sessionStorage.get('csrf')
-                            }*/
-                        },
+                        }
                     }
                 );
             },
-            get : function (userId) {
-                var urlMod = userId;
+            get : function (albumId) {
+                var urlMod = albumId;
                 return this.service(urlMod).get({},
                     function (response) {
                         return response;
@@ -63,18 +56,6 @@ mySetlist.factory('artist', ['$resource', 'baseUrl',
                 return this.service('').post(postData,
                     function (response) {
                         console.log("what the response?", response);
-                        return response;
-                    },
-                    function (failed) {
-                        return failed;
-                    }
-                );
-            },
-            getSetlists : function (artistId) {
-                var urlMod = 'setlists/' + artistId;
-                return this.service(urlMod).getSetlists({},
-                    function (response) {
-                        console.log("?", response);
                         return response;
                     },
                     function (failed) {
