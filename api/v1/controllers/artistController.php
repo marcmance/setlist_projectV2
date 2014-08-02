@@ -8,6 +8,10 @@
 
 		public function get($id) {
 			$artist = $this->model->find($id);
+			$album = new Album();
+			$artist['albums'] = $album
+				->where("artist_id",$id)
+				->findAll();
 			return json_encode($artist);
 		}
 
