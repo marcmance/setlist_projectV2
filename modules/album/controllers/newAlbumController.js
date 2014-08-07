@@ -3,7 +3,7 @@ mySetlist.controller('NewAlbumController', ['$scope', '$route', 'album', 'artist
     $scope.album = {
         album_name: '',
         artists: {},
-        songs: {}
+        songs: []
     };
 
     artist.getAll().$promise.then(function(result){
@@ -11,10 +11,14 @@ mySetlist.controller('NewAlbumController', ['$scope', '$route', 'album', 'artist
         $scope.album.artists = result;
     });
 
+    $scope.testArray = [{test: "hello"}, {test:'hello'}];
+
     $scope.insertAlbum = function() {
 
-        $scope.album.songs = $scope.album.songs_temp.split("\n");
-
+        var split = $scope.album.songs_temp.split("\n");
+        for(var n in split) {
+            $scope.album.songs.push({name: split[n]});
+        }
 
 /*        artist.post($scope.artist).$promise.then(function(result){
         	$scope.artist.artist_name = '';
