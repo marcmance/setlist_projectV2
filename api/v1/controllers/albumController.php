@@ -18,13 +18,18 @@
 			$sucesss = $this->model->setModelFields($json);
 
 			if($sucesss) {
-				echo json_encode($this->model);
+				if($this->model->verifyForeignKey("artist_id", $this->model->artist_id)) {
+					$results = $this->model;
+				}
+				else {
+					$results['error_message'] = "Not a valid artist id";
+				}
 			}
 			else {
-				$results['error_message'] = "Wrong fields";
+				$results['error_message'] = "Invalid fields";
 			}
 			
-			//echo json_encode($results);
+			echo json_encode($results);
 		}
 	}
 ?>

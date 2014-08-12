@@ -26,7 +26,7 @@ mySetlist.controller('NewAlbumController', ['$scope', '$route', 'album', 'artist
             $scope.album.songs.push({name: split[n]});
         }
 
-        $scope.album.songsSpliced = true;
+        $scope.songsSpliced = true;
 
 /*        artist.post($scope.artist).$promise.then(function(result){
         	$scope.artist.artist_name = '';

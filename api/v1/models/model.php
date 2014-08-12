@@ -331,6 +331,27 @@
 			}
 			return false;
 		}
+
+		/*
+			$set = add parent object as a field to the model
+		*/
+		public function verifyForeignKey($key, $id, $set = false) {
+			$pos = strpos($key, '_');
+			$fk = substr($key, 0, $pos);
+
+			$parent_model = new $fk();
+			$test = $parent_model->find($id);
+
+			if(!empty($test)) {
+				if($set) {
+					$this->{$fk} = $parent_model;
+				}
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
 	}
 
 ?>
