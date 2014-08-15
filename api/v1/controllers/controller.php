@@ -27,11 +27,14 @@
 			$this->model = new $this->model_name();
 			$sucesss = $this->model->setModelFields($json);
 
-			if($sucesss) {
+			if($sucesss === "SUCCESS") {
 				$results['id'] = $this->model->insert();
 			}
-			else {
-				$results['error'] = "Wrong fields";
+			else if($sucesss === "INVALID_FIELDS") {
+				$results['error'] = "Invalid fields";
+			}
+			else if($sucesss === "REQUIRED_FIELDS") {
+				$results['error'] = "Missing required fields";
 			}
 			
 			echo json_encode($results);

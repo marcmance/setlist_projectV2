@@ -4,7 +4,7 @@
 		public function __construct() {
 			$this->fields_array_settings = array(
 				"artist_id" => "private", 
-				"artist_name" => "public",
+				"artist_name" => "public,required",
 				"created_date" => "private",
 				"updated_date" => "private"
 			);

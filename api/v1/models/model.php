@@ -6,18 +6,40 @@
 		protected $table_name;
 		protected $fields_array;
 		protected $fields_array_settings;
+		protected $fields_required;
+		protected $required_fields_count;
 		
 		protected $join_array;
 		protected $where_array;
 		protected $order_statement;
-		protected $privateFields;
-		
+
+		protected $messages; //messages to send
 
 		public function __construct() {
 			$this->mysqli = new mysqli(HOST_DB, USERNAME_DB, PASSWORD_DB, NAME_DB);
 			$this->table_name = strtolower(get_class($this));
 			$this->join_array = array();
 			$this->fields_array = array_keys($this->fields_array_settings);
+
+			//Determine required model fields
+			//FIx buildInsertStatement
+			//Get lengths fo check.
+			$this->fields_required = array();
+			foreach ($this->fields_array as $f) {
+				$field_settings = explode(",",$this->fields_array_settings[$f]);
+				if(in_array("required", $field_settings)) {
+					array_push($this->fields_required,$f);
+				}
+			}
+
+			$this->required_fields_count = 0;
+
+			//set error messages
+			$this->messages = array(
+				"invalid" => "INVALID_FIELDS",
+				"required" => "REQUIRED_FIELDS",
+				"success" => "SUCCESS"
+			);
 		}
 
 
@@ -284,18 +306,22 @@
 			);
 
 			$fields_to_impode = array();
-			$fields_to_impode2 = array();
+			$values_to_impode = array();
 
 			foreach ($this->fields_array as $f) {
-				if($this->fields_array_settings[$f] !== 'private') {
+				$field_settings = explode(",",$this->fields_array_settings[$f]);
+				if(!in_array("private",$field_settings) && in_array("required",$field_settings)) {
 					array_push($arr['bind_params'], $this->{$f});
 					array_push($fields_to_impode, $f);
-					array_push($fields_to_impode2, "?");
+					array_push($values_to_impode, "?");
+				}
+				else {
+
 				}
 			}
 
 			$arr['insert_statement'] = implode(",",$fields_to_impode);
-			$arr['values_statement'] = implode(",",$fields_to_impode2);
+			$arr['values_statement'] = implode(",",$values_to_impode);
 
 			return $arr;
 		}
@@ -322,12 +348,21 @@
 				foreach ($fields as $k => $v) {
 					if(in_array($k, $this->fields_array)) {
 						$this->{$k} = $v;
+						if(in_array($k, $this->fields_required)) {
+							$this->required_fields_count++;
+						}
 					}
 					else {
-						return false;
+						return $this->messages["invalid"];
 					}
 				}
-				return true;
+
+				if($this->required_fields_count === count($this->fields_required)) {
+					return $this->messages["success"];
+				}
+				else {
+					return $this->messages["required"];
+				}
 			}
 			return false;
 		}

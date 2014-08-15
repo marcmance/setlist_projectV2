@@ -26,7 +26,7 @@
 			$this->model = new $this->model_name();
 			$sucesss = $this->model->setModelFields($json);
 
-			if($sucesss) {
+			if($sucesss === "SUCCESS") {
 				$this->checkModel = new $this->model_name();
 				if($this->checkModel->where("artist_name", $this->model->artist_name)->findAll()) {
 					header('HTTP/1.1 409 User Already Exists');
@@ -36,10 +36,12 @@
 					$results['id'] = $this->model->insert();
 				}
 			}
-			else {
-				$results['error_message'] = "Wrong fields";
+			else if($sucesss === "INVALID_FIELDS") {
+				$results['error'] = "Invalid fields";
 			}
-			
+			else if($sucesss === "REQUIRED_FIELDS") {
+				$results['error'] = "Missing required fields";
+			}			
 			echo json_encode($results);
 		}
 
