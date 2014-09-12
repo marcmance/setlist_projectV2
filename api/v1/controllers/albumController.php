@@ -20,14 +20,23 @@
 			if($sucesss === "SUCCESS") {
 				if($this->model->verifyForeignKey("artist_id", $this->model->artist_id)) {
 					//$results = $this->model;
-					$results = $this->model->insert();
+					$insert = $this->model->insert();
+					if($insert === "SUCCESS") {
+						$results = $this->model;
+					}
+					else if($insert === 'REQUIRED_CHILD_FIELDS') {
+						$results['error'] = "Missing required Song fields";
+					}
 				}
 				else {
-					$results['error_message'] = "Invalid artist id.";
+					$results['error'] = "Invalid artist id.";
 				}
 			}
 			else if($sucesss === "INVALID_FIELDS") {
 				$results['error'] = "Invalid fields";
+			}
+			else if($sucesss === "INVALID_CHILD_FIELDS") {
+				$results['error'] = "Invalid child fields";
 			}
 			else if($sucesss === "REQUIRED_FIELDS") {
 				$results['error'] = "Missing required fields";

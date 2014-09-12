@@ -4,8 +4,8 @@
 		public function __construct() {
 			$this->fields_array_settings = array(
 				"song_id" => "private", 
-				"song_name" => "public",
-				"tracking" => "public",
+				"song_name" => "public,required",
+				"tracking" => "public,required",
 				"bonus" => "public",
 				"album_id" => "foreign_key",
 				"artist_id" => "foreign_key",

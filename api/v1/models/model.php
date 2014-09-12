@@ -15,16 +15,19 @@
 
 		protected $messages; //messages to send
 
-		public function __construct() {
-			$this->mysqli = new mysqli(HOST_DB, USERNAME_DB, PASSWORD_DB, NAME_DB);
+		public function __construct($open_connection = true) {
+
+			if($open_connection) {
+				$this->mysqli = new mysqli(HOST_DB, USERNAME_DB, PASSWORD_DB, NAME_DB);
+			}
+			
 			$this->table_name = strtolower(get_class($this));
 			$this->join_array = array();
 			$this->fields_array = array_keys($this->fields_array_settings);
 
-			//Determine required model fields
-			//FIx buildInsertStatement
-			//Get lengths fo check.
 			$this->fields_required = array();
+
+			//setup the required fields array
 			foreach ($this->fields_array as $f) {
 				$field_settings = explode(",",$this->fields_array_settings[$f]);
 				if(in_array("required", $field_settings)) {
@@ -38,7 +41,9 @@
 			$this->messages = array(
 				"invalid" => "INVALID_FIELDS",
 				"required" => "REQUIRED_FIELDS",
-				"success" => "SUCCESS"
+				"required_child" => "REQUIRED_CHILD_FIELDS",
+				"invalid_child" => "INVALID_CHILD_FIELDS",
+ 				"success" => "SUCCESS"
 			);
 		}
 
@@ -83,6 +88,37 @@
 			$query = "INSERT INTO " . $this->table_name . " (" . $insert_array['insert_statement'] . ") VALUES (" . 
 									$insert_array['values_statement'] . ")";
 			return $this->query($query, $insert_array['bind_params']);
+
+		}
+
+		//for inserting many rows() 
+		public function insertMany($child_obj) {
+			$insert_array = $this->buildInsertFields();
+			$query = "INSERT INTO " . $this->table_name . " (" . $insert_array['insert_statement'] . ") VALUES (" . 
+									$insert_array['values_statement'] . ")";
+
+
+			foreach ($insert_array['bind_params'] as $key) {
+				$$key = '';
+			}
+
+			if ($stmt = $this->mysqli->prepare($query)) {
+				call_user_func_array(array($stmt,'bind_param'),$this->bind_params($insert_array['bind_params']));
+				
+				$this->mysqli->query("START TRANSACTION");
+
+				foreach($child_obj as $c) {
+					//$$key = 
+					foreach ($insert_array['bind_params'] as $k) {
+						$$k = $c->{$k};
+					}
+
+					$stmt->execute();
+				}
+
+				$stmt->close();
+				$mysqli->query("COMMIT");
+			}
 
 		}
 
