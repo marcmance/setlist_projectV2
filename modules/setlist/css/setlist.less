@@ -16,6 +16,33 @@
 		.notes {
 			font-size: .8em;
 		}
+
+		.stats-art-2 {
+			border: 1px solid @borderColor;
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			float: left;
+		}
+
+		.song-name {
+			width: 60%;
+			padding: 0 0 0 1em;
+			float: left;
+			display: table;
+
+			p {
+				
+				margin: auto 0;
+				line-height: 1em;
+			}
+		}
+	}
+
+	.songs li:after {
+		content: "";
+		display: table;
+		clear: both;
 	}
 
 	.stats {
@@ -43,8 +70,8 @@
 	
 	/* Apply to all */
 	ul > .encore {
-		color: #FF8766;
-		border-top: 1px solid @borderColor;
+		_color: #FF8766;
+		border-top: 3px solid @borderColor;
 		width: 50%;
 	}
 	/* Negate all expect first. Hacky as fuck solution */
@@ -54,6 +81,7 @@
 
 	.newsong {
 		font-weight: bold;
+		background-color: @backgroundColor;
 	}
 }
 
