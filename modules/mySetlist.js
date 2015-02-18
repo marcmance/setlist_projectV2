@@ -6,7 +6,7 @@ var mySetlist = angular.module('mySetlist', ['ngResource', 'ngRoute', 'ngSanitiz
 	}
 ]);
 
-mySetlist.value('baseUrl', "/api/v1/");
+mySetlist.value('baseUrl', "api/v1/");
 
 mySetlist.config(['$routeProvider', 
 
