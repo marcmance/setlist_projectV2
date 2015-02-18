@@ -14,14 +14,8 @@ mySetlist.config(['$routeProvider',
     
         $routeProvider.when('/', 
             {
-                templateUrl: '/modules/home.html',
+                templateUrl: 'modules/home.html',
                 controller: 'TestController'
-            }
-        )
-        .when('/hello', 
-            {
-                templateUrl: '/modules/home.html',
-                controller: 'TestController2'
             }
         )
         .otherwise({ redirectTo: '/' });
