@@ -1,6 +1,6 @@
 mySetlist.config(['$routeProvider', 
     function ($routeProvider) {
-    	$routeProvider.when('album/new', 
+    	$routeProvider.when('/album/new', 
             {
                 templateUrl: 'modules/album/views/newAlbum.html',
                 controller: 'NewAlbumController'
