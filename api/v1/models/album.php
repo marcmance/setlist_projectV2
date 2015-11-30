@@ -5,9 +5,9 @@
 			$this->fields_array_settings = array(
 				"album_id" => "private", 
 				"album_name" => "public,required",
-				"artist_id" => "foreign_key",
+				"artist_id" => "foreign_key,required",
 				"year" => "public,required",
-				"cover_art_url" => "public",
+				"cover_art_url" => "public,required",
 				"created_date" => "private",
 				"updated_date" => "private"
 			);
@@ -33,11 +33,13 @@
 								array_push($this->songs,$song);
 							}
 							else {
+								$this->error_details = $song->error_details;
 								return $this->messages["invalid_child"];
 							}
 						}
 					}
 					else {
+						$this->error_details = "Invalid field: " . $k;
 						return $this->messages["invalid"];
 					}
 				}
@@ -55,16 +57,15 @@
 		public function insert() {
 
 			if(!empty($this->songs)) {
-				//$this->album_id = parent::insert();
-				echo json_encode($this->songs);
-				/*foreach($this->songs as $s) {
+				$this->album_id = parent::insert();
+				//echo json_encode($this->songs);
+				foreach($this->songs as $s) {
 
-					//echo "?" . $s->song_name;
-					$song = new Song(false);
-					$s->album_id = 3;
-					echo $song->setModelFields($s);
-					echo json_encode($song);
-				}*/
+					//$song = new Song(true);
+					$s->album_id = $this->album_id;
+					$s->insert();
+					//echo json_encode($song);
+				}
 				
 				//return $this->album_id;
 				return $this->messages["success"];

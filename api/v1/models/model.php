@@ -7,6 +7,7 @@
 		protected $fields_array;
 		protected $fields_array_settings;
 		protected $fields_required;
+		protected $fields_foreign;
 		protected $required_fields_count;
 		
 		protected $join_array;
@@ -14,6 +15,7 @@
 		protected $order_statement;
 
 		protected $messages; //messages to send
+		public $error_details;
 
 		public function __construct($open_connection = true) {
 
@@ -26,12 +28,16 @@
 			$this->fields_array = array_keys($this->fields_array_settings);
 
 			$this->fields_required = array();
+			$this->fields_foreign = array();
 
 			//setup the required fields array
 			foreach ($this->fields_array as $f) {
 				$field_settings = explode(",",$this->fields_array_settings[$f]);
 				if(in_array("required", $field_settings)) {
 					array_push($this->fields_required,$f);
+				}
+				if(in_array("foreign_key", $field_settings)) {
+					array_push($this->fields_foreign,$f);
 				}
 			}
 
@@ -45,6 +51,8 @@
 				"invalid_child" => "INVALID_CHILD_FIELDS",
  				"success" => "SUCCESS"
 			);
+
+			$this->error_details = '';
 		}
 
 
@@ -346,13 +354,13 @@
 
 			foreach ($this->fields_array as $f) {
 				$field_settings = explode(",",$this->fields_array_settings[$f]);
-				if(!in_array("private",$field_settings) && in_array("required",$field_settings)) {
+				if(!in_array("private",$field_settings) && (in_array("required",$field_settings) || in_array("foreign",$field_settings) )) {
 					array_push($arr['bind_params'], $this->{$f});
 					array_push($fields_to_impode, $f);
 					array_push($values_to_impode, "?");
 				}
 				else {
-
+					// COME BACK HERE....need to insert non required fields
 				}
 			}
 
@@ -384,19 +392,22 @@
 				foreach ($fields as $k => $v) {
 					if(in_array($k, $this->fields_array)) {
 						$this->{$k} = $v;
-						if(in_array($k, $this->fields_required)) {
+						if(in_array($k, $this->fields_required) && !in_array($k, $this->fields_foreign)) {
 							$this->required_fields_count++;
 						}
 					}
 					else {
+						$this->error_details = "Invalid field: " . $k;
 						return $this->messages["invalid"];
 					}
 				}
 
-				if($this->required_fields_count === count($this->fields_required)) {
+				if($this->required_fields_count === count($this->fields_required) - count($this->fields_foreign) ) {
 					return $this->messages["success"];
 				}
 				else {
+					$this->required_fields_count = 0; //resset 
+					$this->error_details = $this->table_name . " model: Missing required fields";
 					return $this->messages["required"];
 				}
 			}

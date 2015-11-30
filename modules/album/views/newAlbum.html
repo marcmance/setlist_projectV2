@@ -21,12 +21,16 @@
 		<b>Cover</b><br/>
 		<input type="text" ng-model="album.cover_art_url" ng-required="true"/><br/>
 		<br/><br/>
-		<textarea type="text" ng-model="album.songs_temp" ng-required="true" ng-show="!album.songsSpliced"> </textarea>
+		<textarea type="text" ng-model="songs_temp" ng-required="true" ng-show="!album.songsSpliced"> </textarea>
 		<br/>
 		<br/>
 		<div ng-repeat="s in album.songs" ng-show="songsSpliced">
 			<!--<input ng-model="s.name"/> -->
 			{{s.name}} <input type="checkbox"/>
+		</div>
+
+		<div ng-show="showMsg">
+			{{message}}
 		</div>
 		<br/><br/>
 		<input type="button" ng-click="insertAlbum()" value="Submit" />

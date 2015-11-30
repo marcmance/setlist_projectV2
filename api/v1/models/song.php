@@ -7,8 +7,8 @@
 				"song_name" => "public,required",
 				"tracking" => "public,required",
 				"bonus" => "public",
-				"album_id" => "foreign_key",
-				"artist_id" => "foreign_key",
+				"album_id" => "foreign_key,required",
+				"artist_id" => "foreign_key,required",
 				"created_date" => "private",
 				"updated_date" => "private"
 			);

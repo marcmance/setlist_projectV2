@@ -56,6 +56,11 @@ mySetlist.factory('album', ['$resource', 'baseUrl',
                 return this.service('').post(postData,
                     function (response) {
                         console.log("what the response?", response);
+                        var x = "";
+                        for(var n in response) {
+                            x += response[n];
+                        }
+                        console.log(x);
                         return response;
                     },
                     function (failed) {

@@ -34,9 +34,11 @@
 			}
 			else if($sucesss === "INVALID_FIELDS") {
 				$results['error'] = "Invalid fields";
+				$results['error_details'] = $this->model->error_details;
 			}
 			else if($sucesss === "INVALID_CHILD_FIELDS") {
 				$results['error'] = "Invalid child fields";
+				$results['error_details'] = $this->model->error_details;
 			}
 			else if($sucesss === "REQUIRED_FIELDS") {
 				$results['error'] = "Missing required fields";
